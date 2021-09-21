@@ -24,7 +24,7 @@ class TripList extends StatelessWidget {
             Navigator.pushNamed(
               context,
               TripView.routeName,
-              arguments: {'tripId': trip.id, 'cityName': trip.city},
+              arguments: {'tripId': trip.id as String, 'cityName': trip.city},
             );
           },
         );

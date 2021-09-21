@@ -17,7 +17,6 @@ class TripView extends StatelessWidget {
         as Map<String, String>)['tripId']!;
     final City city = Provider.of<CityProvider>(context, listen: false)
         .getCityByName(cityName);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

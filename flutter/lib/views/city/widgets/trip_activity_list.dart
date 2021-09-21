@@ -17,7 +17,7 @@ class TripActivityList extends StatelessWidget {
           return Card(
             child: ListTile(
               leading: CircleAvatar(
-                backgroundImage: AssetImage(activity.image),
+                backgroundImage: NetworkImage(activity.image),
               ),
               title: Text(activity.name),
               subtitle: Text(activity.city),
@@ -27,7 +27,7 @@ class TripActivityList extends StatelessWidget {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  deleteTripActivity(activity.id);
+                  deleteTripActivity(activity);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: const Text('Activité supprimée'),
