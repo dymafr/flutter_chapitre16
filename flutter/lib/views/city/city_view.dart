@@ -45,7 +45,7 @@ class _CityState extends State<CityView> {
       context: context,
       initialDate: DateTime.now().add(Duration(days: 1)),
       firstDate: DateTime.now(),
-      lastDate: DateTime(2020),
+      lastDate: DateTime(2022),
     ).then((newDate) {
       if (newDate != null) {
         setState(() {
@@ -86,7 +86,7 @@ class _CityState extends State<CityView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                RaisedButton(
+                ElevatedButton(
                   child: const Text('annuler'),
                   onPressed: () {
                     Navigator.pop(context, 'cancel');
@@ -95,12 +95,12 @@ class _CityState extends State<CityView> {
                 const SizedBox(
                   width: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: const Text(
                     'sauvegarder',
                     style: const TextStyle(color: Colors.white),
                   ),
-                  color: Theme.of(context).primaryColor,
+                  style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
                   onPressed: () {
                     Navigator.pop(context, 'save');
                   },
@@ -119,7 +119,7 @@ class _CityState extends State<CityView> {
             title: Text('Attention !'),
             content: Text('Vous n\'avez pas entré de date'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('ok'),
                 onPressed: () {
                   Navigator.pop(context);
@@ -131,7 +131,7 @@ class _CityState extends State<CityView> {
       );
     } else if (result == 'save') {
       mytrip.city = cityName;
-      Provider.of<TripProvider>(context).addTrip(mytrip);
+      Provider.of<TripProvider>(context, listen: false).addTrip(mytrip);
       Navigator.pushNamed(context, HomeView.routeName);
     }
   }
@@ -191,11 +191,11 @@ class _CityState extends State<CityView> {
         items: [
           const BottomNavigationBarItem(
             icon: const Icon(Icons.map),
-            title: const Text('Découverte'),
+            label: 'Découverte',
           ),
           const BottomNavigationBarItem(
             icon: const Icon(Icons.stars),
-            title: const Text('Mes activités'),
+            label: 'Mes activités',
           )
         ],
         onTap: switchIndex,

@@ -24,7 +24,6 @@ class _InputAddressState extends State<InputAddress> {
       if (_debounce?.isActive == true) _debounce?.cancel();
       _debounce = Timer(Duration(seconds: 1), () async {
         if (value.isNotEmpty) {
-          print(value);
           _places = await getAutocompleteSuggestions(value);
           setState(() {});
         }
@@ -35,7 +34,14 @@ class _InputAddressState extends State<InputAddress> {
   }
 
   Future<void> getPlaceDetails(String placeId) async {
-    try {} catch (e) {
+    try {
+      LocationActivity? location = await getPlaceDetailsApi(placeId);
+      if (location is LocationActivity) {
+        Navigator.pop(context, location);
+      } else {
+        Navigator.pop(context, null);
+      }
+    } catch (e) {
       rethrow;
     }
   }
@@ -59,7 +65,7 @@ class _InputAddressState extends State<InputAddress> {
                 right: 3,
                 child: IconButton(
                   icon: Icon(Icons.clear),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context, null),
                 ),
               )
             ],

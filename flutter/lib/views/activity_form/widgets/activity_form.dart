@@ -58,9 +58,8 @@ class _ActivityFormState extends State<ActivityForm> {
             _addressController.text = location.address!;
           }
         });
-      } else {
-        print('no focus');
-      }
+        _urlFocusNode.requestFocus();
+      } 
     });
     super.initState();
   }

@@ -3,6 +3,7 @@ import '../models/activity_model.dart';
 import '../models/place_model.dart';
 import 'dart:convert';
 
+// mettez votre clé d'api google ici
 const GOOGLE_KEY_API = 'AIzaSyDXpINaJSpMpyBNzDA7Tw4gGFTxma2wKv4';
 
 Uri _queryAutocompleteBuilder(String query) {
@@ -26,7 +27,6 @@ Future<List<Place>> getAutocompleteSuggestions(String query) async {
     var response = await http.get(_queryAutocompleteBuilder(query));
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
-      print(body);
       return (body['predictions'] as List)
           .map(
             (suggestion) => Place(
