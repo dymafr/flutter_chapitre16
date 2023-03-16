@@ -8,6 +8,7 @@ const Trip = require("./models/trip.model");
 const multer = require("multer");
 const subpath = "/public/assets/images/activities";
 
+const subpath = "/public/assets/images/activities";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, subpath));
