@@ -4,7 +4,7 @@ import 'dart:convert';
 import '../models/activity_model.dart';
 import '../models/place_model.dart';
 
-const GOOGLE_KEY_API = 'AIzaSyDXpINaJSpMpyBNzDA7Tw4gGFTxma2wKv4';
+const GOOGLE_KEY_API = 'VOTRE_CLE_GOOGLE_API';
 
 Uri _queryAutocompleteBuilder(String query) {
   return Uri.parse(
