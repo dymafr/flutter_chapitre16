@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/city_provider.dart';
 import '../../models/city_model.dart';
 import '../../widgets/dyma_drawer.dart';
+import '../trips/trips_view.dart';
 import '../../widgets/dyma_loader.dart';
 import 'widgets/city_card.dart';
 
@@ -19,7 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeView> {
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -43,7 +44,12 @@ class _HomeState extends State<HomeView> {
     );
     return Scaffold(
       appBar: AppBar(title: const Text('dymatrip')),
-      drawer: const DymaDrawer(),
+      drawer: DymaDrawer(
+        onHomeSelected: () {},
+        onTripsSelected: () {
+          Navigator.pushNamed<void>(context, TripsView.routeName);
+        },
+      ),
       body: Column(
         children: <Widget>[
           Container(
@@ -62,7 +68,7 @@ class _HomeState extends State<HomeView> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.clear),
-                  onPressed: () => setState(() => searchController.clear()),
+                  onPressed: searchController.clear,
                 ),
               ],
             ),
@@ -76,10 +82,11 @@ class _HomeState extends State<HomeView> {
                   context,
                   listen: false,
                 ).fetchData,
-                child: cityProvider.isLoading
+                child: cityProvider.isLoading && cityProvider.cities.isEmpty
                     ? const DymaLoader()
                     : filteredCities.isNotEmpty
                     ? ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: filteredCities.length,
                         itemBuilder: (_, i) =>
                             CityCard(city: filteredCities[i]),

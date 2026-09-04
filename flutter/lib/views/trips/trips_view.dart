@@ -5,6 +5,7 @@ import '../../providers/trip_provider.dart';
 import '../../widgets/dyma_loader.dart';
 import 'widgets/trip_list.dart';
 import '../../widgets/dyma_drawer.dart';
+import '../home/home_view.dart';
 
 class TripsView extends StatelessWidget {
   static const String routeName = '/trips';
@@ -26,7 +27,15 @@ class TripsView extends StatelessWidget {
             ],
           ),
         ),
-        drawer: const DymaDrawer(),
+        drawer: DymaDrawer(
+          onHomeSelected: () {
+            Navigator.popUntil(
+              context,
+              ModalRoute.withName(HomeView.routeName),
+            );
+          },
+          onTripsSelected: () {},
+        ),
         body: tripProvider.isLoading == false
             ? tripProvider.trips.isNotEmpty
                   ? TabBarView(
@@ -34,14 +43,18 @@ class TripsView extends StatelessWidget {
                         TripList(
                           trips: tripProvider.trips
                               .where(
-                                (trip) => DateTime.now().isBefore(trip.date!),
+                                (trip) =>
+                                    trip.date != null &&
+                                    DateTime.now().isBefore(trip.date!),
                               )
                               .toList(),
                         ),
                         TripList(
                           trips: tripProvider.trips
                               .where(
-                                (trip) => DateTime.now().isAfter(trip.date!),
+                                (trip) =>
+                                    trip.date != null &&
+                                    DateTime.now().isAfter(trip.date!),
                               )
                               .toList(),
                         ),

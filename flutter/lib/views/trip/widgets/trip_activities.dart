@@ -4,20 +4,24 @@ import '../../../models/activity_model.dart';
 import 'trip_activity_list.dart';
 
 class TripActivities extends StatelessWidget {
-  final String tripId;
+  const TripActivities({required this.tripId, super.key});
 
-  const TripActivities({super.key, required this.tripId});
+  final String tripId;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return DefaultTabController(
       length: 2,
       child: Column(
         children: <Widget>[
-          Container(
-            color: Theme.of(context).primaryColor,
+          ColoredBox(
+            color: theme.colorScheme.primary,
             child: TabBar(
-              indicatorColor: Colors.blue[100],
+              labelColor: theme.colorScheme.onPrimary,
+              unselectedLabelColor: theme.colorScheme.primaryContainer,
+              indicatorColor: theme.colorScheme.onPrimary,
               tabs: const <Widget>[
                 Tab(text: 'En cours'),
                 Tab(text: 'Terminées'),

@@ -9,6 +9,7 @@ import '../../providers/trip_provider.dart';
 import '../../widgets/dyma_drawer.dart';
 import '../activity_form/activity_form_view.dart';
 import '../home/home_view.dart';
+import '../trips/trips_view.dart';
 import 'widgets/trip_activity_list.dart';
 import 'widgets/activity_list.dart';
 import 'widgets/trip_overview.dart';
@@ -154,7 +155,14 @@ class _CityState extends State<CityView> {
           ),
         ],
       ),
-      drawer: const DymaDrawer(),
+      drawer: DymaDrawer(
+        onHomeSelected: () {
+          Navigator.popUntil(context, ModalRoute.withName(HomeView.routeName));
+        },
+        onTripsSelected: () {
+          Navigator.pushNamed<void>(context, TripsView.routeName);
+        },
+      ),
       body: Column(
         children: <Widget>[
           TripOverview(

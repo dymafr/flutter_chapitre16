@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/dyma_drawer.dart';
+import '../home/home_view.dart';
+import '../trips/trips_view.dart';
 import 'widgets/activity_form.dart';
 
 class ActivityFormView extends StatelessWidget {
@@ -13,7 +15,14 @@ class ActivityFormView extends StatelessWidget {
     String cityName = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(title: const Text('Ajouter une activité')),
-      drawer: const DymaDrawer(),
+      drawer: DymaDrawer(
+        onHomeSelected: () {
+          Navigator.popUntil(context, ModalRoute.withName(HomeView.routeName));
+        },
+        onTripsSelected: () {
+          Navigator.pushNamed<void>(context, TripsView.routeName);
+        },
+      ),
       body: SingleChildScrollView(child: ActivityForm(cityName: cityName)),
     );
   }
