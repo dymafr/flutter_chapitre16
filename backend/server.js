@@ -24,8 +24,7 @@ app.use(cors());
 mongoose.set("debug", true);
 mongoose
   .connect(
-    "mongodb+srv://jean:123@cluster0-urpjt.gcp.mongodb.net/dymatrip?retryWrites=true&w=majority" // version web
-    // "mongodb+srv://jean:123@cluster0-urpjt.gcp.mongodb.net/dymatrip_emu?retryWrites=true&w=majority" // version avec emulateur
+    "VOTRE_URL_ATLAS"
   )
   .then(() => console.log("connexion ok !"));
 

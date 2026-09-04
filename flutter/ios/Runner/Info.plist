@@ -52,8 +52,6 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We might need picture for activity</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your current location for activity</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your current location for activity</string>
+	<string>We need your current location for activity</string>
 </dict>
 </plist>

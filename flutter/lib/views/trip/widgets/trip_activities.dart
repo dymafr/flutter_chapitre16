@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../models/activity_model.dart';
 import 'trip_activity_list.dart';
 
@@ -18,12 +19,8 @@ class TripActivities extends StatelessWidget {
             child: TabBar(
               indicatorColor: Colors.blue[100],
               tabs: const <Widget>[
-                Tab(
-                  text: 'En cours',
-                ),
-                Tab(
-                  text: 'Terminées',
-                )
+                Tab(text: 'En cours'),
+                Tab(text: 'Terminées'),
               ],
             ),
           ),
@@ -36,13 +33,10 @@ class TripActivities extends StatelessWidget {
                   tripId: tripId,
                   filter: ActivityStatus.ongoing,
                 ),
-                TripActivityList(
-                  tripId: tripId,
-                  filter: ActivityStatus.done,
-                )
+                TripActivityList(tripId: tripId, filter: ActivityStatus.done),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

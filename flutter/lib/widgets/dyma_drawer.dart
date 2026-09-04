@@ -16,7 +16,7 @@ class DymaDrawer extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Theme.of(context).primaryColor,
-                  Theme.of(context).primaryColor.withOpacity(0.5),
+                  Theme.of(context).primaryColor.withValues(alpha: 0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -24,10 +24,7 @@ class DymaDrawer extends StatelessWidget {
             ),
             child: const Text(
               'Dyma Trip',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ),
           ListTile(

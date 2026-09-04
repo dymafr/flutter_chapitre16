@@ -1,25 +1,36 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import '../models/activity_model.dart';
 import '../models/place_model.dart';
 
-const GOOGLE_KEY_API = 'VOTRE_CLE_GOOGLE_API';
+const googleApiKey = ''; // Mettre votre clé d'API Google Cloud
 
 Uri _queryAutocompleteBuilder(String query) {
-  return Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?&key=$GOOGLE_KEY_API&input=$query');
+  return Uri.https(
+    'maps.googleapis.com',
+    '/maps/api/place/queryautocomplete/json',
+    {'key': googleApiKey, 'input': query},
+  );
 }
 
 Uri _queryPlaceDetailsBuilder(String placeId) {
-  return Uri.parse(
-      "https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&fields=formatted_address,geometry&key=$GOOGLE_KEY_API");
+  return Uri.https('maps.googleapis.com', '/maps/api/place/details/json', {
+    'key': googleApiKey,
+    'place_id': placeId,
+    'fields': 'formatted_address,geometry',
+  });
 }
 
-Uri _queryGetAddressFromLatLngBuilder(
-    {required double lat, required double lng}) {
-  return Uri.parse(
-      "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$GOOGLE_KEY_API");
+Uri _queryGetAddressFromLatLngBuilder({
+  required double lat,
+  required double lng,
+}) {
+  return Uri.https('maps.googleapis.com', '/maps/api/geocode/json', {
+    'key': googleApiKey,
+    'latlng': '$lat,$lng',
+  });
 }
 
 Future<List<Place>> getAutocompleteSuggestions(String query) async {
@@ -50,8 +61,8 @@ Future<LocationActivity> getPlaceDetailsApi(String placeId) async {
       var body = json.decode(response.body)['result'];
       return LocationActivity(
         address: body['formatted_address'],
-        longitude: body['geometry']['location']['lng'],
-        latitude: body['geometry']['location']['lat'],
+        longitude: body['geometry']['location']['lng'].toDouble(),
+        latitude: body['geometry']['location']['lat'].toDouble(),
       );
     } else {
       throw 'Erreur !';
@@ -61,11 +72,14 @@ Future<LocationActivity> getPlaceDetailsApi(String placeId) async {
   }
 }
 
-Future<String> getAddressFromLatLng(
-    {required double lat, required double lng}) async {
+Future<String> getAddressFromLatLng({
+  required double lat,
+  required double lng,
+}) async {
   try {
-    var response =
-        await http.get(_queryGetAddressFromLatLngBuilder(lat: lat, lng: lng));
+    var response = await http.get(
+      _queryGetAddressFromLatLngBuilder(lat: lat, lng: lng),
+    );
     if (response.statusCode == 200) {
       return json.decode(response.body)['results'][0]['formatted_address'];
     } else {

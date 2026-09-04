@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../providers/city_provider.dart';
 import '../../models/city_model.dart';
 import '../../widgets/dyma_drawer.dart';
@@ -37,12 +38,11 @@ class _HomeState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     CityProvider cityProvider = Provider.of<CityProvider>(context);
-    List<City> filteredCities =
-    cityProvider.getFilteredCities(searchController.text);
+    List<City> filteredCities = cityProvider.getFilteredCities(
+      searchController.text,
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('dymatrip'),
-      ),
+      appBar: AppBar(title: const Text('dymatrip')),
       drawer: const DymaDrawer(),
       body: Column(
         children: <Widget>[
@@ -56,16 +56,14 @@ class _HomeState extends State<HomeView> {
                     controller: searchController,
                     decoration: const InputDecoration(
                       hintText: 'Rechercher une ville',
-                      prefixIcon: Icon(
-                        Icons.search,
-                      ),
+                      prefixIcon: Icon(Icons.search),
                     ),
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () => setState(() => searchController.clear()),
-                )
+                ),
               ],
             ),
           ),
@@ -74,17 +72,18 @@ class _HomeState extends State<HomeView> {
               padding: const EdgeInsets.all(10),
               child: RefreshIndicator(
                 displacement: 100.0,
-                onRefresh:
-                Provider.of<CityProvider>(context, listen: false).fetchData,
+                onRefresh: Provider.of<CityProvider>(
+                  context,
+                  listen: false,
+                ).fetchData,
                 child: cityProvider.isLoading
                     ? const DymaLoader()
                     : filteredCities.isNotEmpty
                     ? ListView.builder(
-                  itemCount: filteredCities.length,
-                  itemBuilder: (_, i) => CityCard(
-                    city: filteredCities[i],
-                  ),
-                )
+                        itemCount: filteredCities.length,
+                        itemBuilder: (_, i) =>
+                            CityCard(city: filteredCities[i]),
+                      )
                     : const Text('Aucun résultat'),
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'providers/trip_provider.dart';
 import 'providers/city_provider.dart';
 import 'views/city/city_view.dart';
@@ -9,7 +10,7 @@ import 'views/trip/trip_view.dart';
 import 'views/activity_form/activity_form_view.dart';
 import './views/home/home_view.dart';
 
-main() {
+void main() {
   runApp(const DymaTrip());
 }
 
@@ -47,9 +48,8 @@ class _DymaTripState extends State<DymaTrip> {
           TripView.routeName: (_) => const TripView(),
           ActivityFormView.routeName: (_) => const ActivityFormView(),
         },
-        onUnknownRoute: (_) => MaterialPageRoute(
-          builder: (_) => const NotFound(),
-        ),
+        onUnknownRoute: (_) =>
+            MaterialPageRoute(builder: (_) => const NotFound()),
       ),
     );
   }

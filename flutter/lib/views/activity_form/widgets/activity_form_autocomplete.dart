@@ -6,8 +6,8 @@ import '../../../apis/google_api.dart';
 import '../../../models/activity_model.dart';
 import '../../../models/place_model.dart';
 
-Future showInputAutocomplete(BuildContext context) {
-  return showDialog(
+Future<LocationActivity?> showInputAutocomplete(BuildContext context) {
+  return showDialog<LocationActivity>(
     context: context,
     builder: (_) => const InputAddress(),
   );
@@ -29,8 +29,9 @@ class _InputAddressState extends State<InputAddress> {
       if (_debounce?.isActive == true) _debounce?.cancel();
       _debounce = Timer(const Duration(seconds: 1), () async {
         if (value.isNotEmpty) {
-          _places = await getAutocompleteSuggestions(value);
-          setState(() {});
+          final places = await getAutocompleteSuggestions(value);
+          if (!mounted) return;
+          setState(() => _places = places);
         }
       });
     } catch (e) {
@@ -39,6 +40,7 @@ class _InputAddressState extends State<InputAddress> {
   }
 
   Future<void> getPlaceDetails(String placeId) async {
+    if (placeId.isEmpty) return;
     try {
       LocationActivity location = await getPlaceDetailsApi(placeId);
       if (mounted) {
@@ -47,6 +49,12 @@ class _InputAddressState extends State<InputAddress> {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
@@ -68,9 +76,9 @@ class _InputAddressState extends State<InputAddress> {
                 right: 3,
                 child: IconButton(
                   icon: const Icon(Icons.clear),
-                  onPressed: () => Navigator.pop(context, null),
+                  onPressed: () => Navigator.pop(context),
                 ),
-              )
+              ),
             ],
           ),
           Expanded(
@@ -85,7 +93,7 @@ class _InputAddressState extends State<InputAddress> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );

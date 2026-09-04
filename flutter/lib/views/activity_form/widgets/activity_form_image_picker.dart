@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/city_provider.dart';
 
 class ActivityFormImagePicker extends StatefulWidget {
-  final Function updateUrl;
+  final ValueChanged<String> updateUrl;
 
   const ActivityFormImagePicker({super.key, required this.updateUrl});
 
@@ -23,13 +23,16 @@ class _ActivityFormImagePickerState extends State<ActivityFormImagePicker> {
   Future<void> _pickImage(ImageSource source) async {
     try {
       XFile? pickedFile = await picker.pickImage(source: source);
-      if (pickedFile != null && mounted) {
+      if (pickedFile == null || !mounted) return;
+      setState(() {
         _deviceImage = File(pickedFile.path);
-        final url = await Provider.of<CityProvider>(context, listen: false)
-            .uploadImage(_deviceImage!);
-        widget.updateUrl(url);
-        setState(() {});
-      } else {}
+      });
+      final url = await Provider.of<CityProvider>(
+        context,
+        listen: false,
+      ).uploadImage(_deviceImage!);
+      if (!mounted) return;
+      widget.updateUrl(url);
     } catch (e) {
       rethrow;
     }
@@ -57,12 +60,9 @@ class _ActivityFormImagePickerState extends State<ActivityFormImagePicker> {
         SizedBox(
           width: double.infinity,
           child: _deviceImage != null
-              ? Image.file(
-            _deviceImage!,
-            fit: BoxFit.cover,
-          )
+              ? Image.file(_deviceImage!, fit: BoxFit.cover)
               : const Text('Aucune image'),
-        )
+        ),
       ],
     );
   }
